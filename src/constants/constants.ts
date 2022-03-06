@@ -1,0 +1,35 @@
+export const NUMBER_OF_GUESSES = 6;
+
+export const WORD_LENGTH = 5;
+
+export const KEYBOARD_LETTERS = [
+  "q",
+  "w",
+  "e",
+  "r",
+  "t",
+  "y",
+  "u",
+  "i",
+  "o",
+  "p",
+  "space",
+  "a",
+  "s",
+  "d",
+  "f",
+  "g",
+  "h",
+  "j",
+  "k",
+  "l",
+  "space",
+  "Enter",
+  "z",
+  "x",
+  "c",
+  "v",
+  "b",
+  "n",
+  "m",
+];

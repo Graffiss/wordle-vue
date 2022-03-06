@@ -1,28 +1,16 @@
-<script lang="ts">
-import LetterTile from "../letterTile/LetterTile.vue";
-import { reactive } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
+import LetterTile from "../LetterTile/LetterTile.vue";
+import { WORD_LENGTH } from "../../constants/constants";
 
-export default {
-  props: ["word"],
-  setup() {
-    const letters = reactive(this.props);
-    return letters;
-  },
-  components: { LetterTile },
-  //   methods: {
-  //     lettersCreator(): [] {
-  //       const lettersRemaining = 5 - this.word.split;
-  //       return this.word.split("").concat(Array(lettersRemaining).fill(""));
-  //     },
-  //   },
-  //   mounted() {
-  //     this.lettersCreator();
-  //   },
-};
-
-defineProps<{
+const props = defineProps<{
   word: string;
 }>();
+
+const letters = computed(() => {
+  const lettersRemaining = WORD_LENGTH - props.word.length;
+  return props.word.split("").concat(Array(lettersRemaining).fill(""));
+});
 </script>
 
 <template>

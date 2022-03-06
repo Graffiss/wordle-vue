@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheWordle from "@/components/wordle/TheWordle.vue";
+import TheWordle from "../components/Wordle/TheWordle.vue";
 </script>
 
 <template>

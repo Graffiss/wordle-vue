@@ -1,32 +1,32 @@
+<script setup lang="ts">
+import { reactive } from "vue";
+import WordsGrid from "../wordsGrid/WordsGrid.vue";
+
+const state = reactive({
+  rows: [
+    {
+      guess: "world",
+    },
+    {
+      guess: "great",
+    },
+    {
+      guess: "cra",
+    },
+  ],
+});
+</script>
 <template>
   <h2>Wordle - Vue</h2>
-  <div class="tiles-wrapper" v-for="(word, index) in rows" :key="index">
-    <!-- <WordsGrid :word="word.guess" /> -->
-    <h2>{{ word.guess }}</h2>
-    {{ console.log(rows) }}
+  <div class="tiles-wrapper">
+    <WordsGrid
+      :word="word.guess"
+      v-for="(word, index) in state.rows"
+      :key="index"
+    />
   </div>
 </template>
 
-<script lang="ts">
-import { reactive } from "vue";
-// import WordsGrid from "../wordsGrid/WordsGrid.vue";
-
-export default {
-  name: "TheWordle",
-  // components: { WordsGrid },
-  setup() {
-    const rows = reactive([
-      {
-        guess: "world",
-      },
-      {
-        guess: "great",
-      },
-    ]);
-    return rows;
-  },
-};
-</script>
 <style scoped>
 .tiles-wrapper {
   display: grid;
