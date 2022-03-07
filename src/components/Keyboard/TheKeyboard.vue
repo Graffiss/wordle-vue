@@ -1,6 +1,21 @@
 <script setup lang="ts">
 import DeleteIcon from "@/components/icons/IconDelete.vue";
 import { KEYBOARD_LETTERS } from "@/constants/constants";
+
+const props = defineProps<{
+  onClickProps: (key: string) => void;
+}>();
+
+const onClick = (e: Event) => {
+  const { textContent, innerHTML } = e.currentTarget as HTMLButtonElement;
+
+  let returnProps = textContent!;
+  if (textContent !== innerHTML) {
+    returnProps = "Backspace";
+  }
+
+  props.onClickProps(returnProps);
+};
 </script>
 
 <template>
@@ -9,10 +24,11 @@ import { KEYBOARD_LETTERS } from "@/constants/constants";
       v-for="(key, index) in KEYBOARD_LETTERS"
       :key="index"
       :class="{ large: key === 'Enter', invisible: key === '' }"
+      @click="onClick"
     >
       {{ key }}
     </button>
-    <button class="large">
+    <button class="large" @click="onClick">
       <DeleteIcon />
     </button>
   </div>

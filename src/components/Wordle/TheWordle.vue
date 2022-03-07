@@ -25,6 +25,8 @@ const state = reactive({
     },
   ],
 });
+
+const addGuessLetter = (letter: string) => console.log(letter);
 </script>
 
 <template>
@@ -35,7 +37,7 @@ const state = reactive({
       :key="index"
     />
   </div>
-  <TheKeyboard />
+  <TheKeyboard :onClickProps="(key) => addGuessLetter(key)" />
 </template>
 
 <style scoped>
