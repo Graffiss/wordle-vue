@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from "@/components/TheWelcome.vue";
+import TheWordle from "../components/Wordle/TheWordle.vue";
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <TheWordle />
   </main>
 </template>
