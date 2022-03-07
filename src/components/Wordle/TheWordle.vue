@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive } from "vue";
+import TheKeyboard from "../Keyboard/TheKeyboard.vue";
 import WordsGrid from "../wordsGrid/WordsGrid.vue";
 
 const state = reactive({
@@ -13,11 +14,20 @@ const state = reactive({
     {
       guess: "cra",
     },
+    {
+      guess: "",
+    },
+    {
+      guess: "",
+    },
+    {
+      guess: "",
+    },
   ],
 });
 </script>
+
 <template>
-  <h2>Wordle - Vue</h2>
   <div class="tiles-wrapper">
     <WordsGrid
       :word="word.guess"
@@ -25,6 +35,7 @@ const state = reactive({
       :key="index"
     />
   </div>
+  <TheKeyboard />
 </template>
 
 <style scoped>
