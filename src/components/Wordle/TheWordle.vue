@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { reactive } from "vue";
+import { useGuess } from "../../composable/useGuess";
 import TheKeyboard from "../Keyboard/TheKeyboard.vue";
 import WordsGrid from "../wordsGrid/WordsGrid.vue";
 
+const { addGuessLetter } = useGuess();
 const state = reactive({
   rows: [
     {
@@ -25,8 +27,6 @@ const state = reactive({
     },
   ],
 });
-
-const addGuessLetter = (letter: string) => console.log(letter);
 </script>
 
 <template>
