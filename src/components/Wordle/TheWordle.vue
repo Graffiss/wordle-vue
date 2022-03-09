@@ -1,10 +1,33 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
+import { mapActions, storeToRefs } from "pinia";
 import { useGuess } from "../../composable/useGuess";
 import TheKeyboard from "../Keyboard/TheKeyboard.vue";
 import WordsGrid from "../wordsGrid/WordsGrid.vue";
+import { useGuessStore } from "../../store/guess";
+import { isValidWord } from "../../utils/get-words";
+import { WORD_LENGTH } from "../../constants/constants";
 
-const { addGuessLetter } = useGuess();
+const main = useGuessStore();
+const { rows, gameState } = storeToRefs(main);
+const { addGuess } = mapActions(useGuessStore, ["addGuess"]);
+const { guess, addGuessLetter } = useGuess();
+
+const invalidGuess = ref({ showInvalidGuess: false });
+
+const previousGuess = usePrevious(guess);
+onMounted(() => {
+  if (guess.value.length === 0 && previousGuess?.length === WORD_LENGTH) {
+    if (isValidWord(previousGuess)) {
+      invalidGuess.value = { showInvalidGuess: false };
+      addGuess(previousGuess);
+    } else {
+      invalidGuess.value = { showInvalidGuess: true };
+      guess.value = previousGuess;
+    }
+  }
+});
+
 const state = reactive({
   rows: [
     {
