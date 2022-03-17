@@ -8,6 +8,7 @@ import { useGuessStore } from "../../store/guess";
 import { isValidWord } from "../../utils/get-words";
 import TheKeyboard from "../Keyboard/TheKeyboard.vue";
 import WordsGrid from "../wordsGrid/WordsGrid.vue";
+import Alert from "../Alert/TheAlert.vue";
 
 const main = useGuessStore();
 const { rows, gameState } = storeToRefs(main);
@@ -29,7 +30,7 @@ watch(previousGuess, () => {
   }
 });
 
-const isGameOver = gameState.value !== "playing";
+const isGameOver = computed(() => gameState.value !== "playing");
 
 const words = computed(() => {
   let newRows = [...rows.value];
@@ -48,6 +49,7 @@ const words = computed(() => {
 </script>
 
 <template>
+  <Alert v-if="isGameOver" />
   <div class="tiles-wrapper">
     <WordsGrid :word="word.guess" v-for="(word, index) in words" :key="index" />
   </div>

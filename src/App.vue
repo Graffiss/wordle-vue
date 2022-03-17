@@ -9,16 +9,24 @@ import { RouterView } from "vue-router";
 <style>
 @import "@/assets/base.css";
 
-body {
-  display: flex;
-  place-items: center;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: Arial;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+html {
+  font-size: 62.5%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6rem;
+  min-height: 100vh;
+  margin: 0;
+  padding: 1em;
 }
 </style>
