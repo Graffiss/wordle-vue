@@ -1,6 +1,25 @@
 <script setup lang="ts">
 import DeleteIcon from "@/components/icons/IconDelete.vue";
 import { KEYBOARD_LETTERS } from "@/constants/constants";
+import { LetterState } from "@/utils/calculate-guess";
+import { storeToRefs } from "pinia";
+import { computed, watch } from "vue";
+import { useGuessStore } from "../../store/guess";
+
+const keyStateStyles = {
+  [LetterState.Miss]: "#3a3a3c",
+  [LetterState.Present]: "#b59f3b",
+  [LetterState.Match]: "#538e4e",
+};
+
+const main = useGuessStore();
+const { keyboardLetterState } = storeToRefs(main);
+
+const letterState = computed(() =>
+  KEYBOARD_LETTERS.map((key) => keyStateStyles[keyboardLetterState.value[key]])
+);
+
+watch(keyboardLetterState, () => letterState.value);
 
 const props = defineProps<{
   onClickProps: (key: string) => void;
@@ -23,7 +42,13 @@ const onClick = (e: Event) => {
     <button
       v-for="(key, index) in KEYBOARD_LETTERS"
       :key="index"
-      :class="{ large: key === 'Enter', invisible: key === '' }"
+      :class="{
+        large: key === 'Enter',
+        invisible: key === '',
+      }"
+      :style="{
+        backgroundColor: keyStateStyles[keyboardLetterState[key]],
+      }"
       @click="onClick"
     >
       {{ key }}
@@ -60,7 +85,6 @@ button {
   cursor: pointer;
   user-select: none;
 }
-
 .large {
   grid-column: span 3;
 }
