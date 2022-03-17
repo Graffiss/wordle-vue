@@ -1,0 +1,76 @@
+<script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { computed } from "vue";
+import { useGuessStore } from "../../store/guess";
+import WordsGrid from "../wordsGrid/WordsGrid.vue";
+
+const main = useGuessStore();
+const { gameState, answer } = storeToRefs(main);
+
+const gameWon = computed(() => gameState.value === "won");
+</script>
+
+<template>
+  <div class="wrapper">
+    <h2>Game Over</h2>
+    <p v-if="gameWon">Congrats! You won!</p>
+    <div class="answer" v-else>
+      <WordsGrid :word="answer" />
+    </div>
+    <button @click="main.newGame([])">New Game</button>
+  </div>
+</template>
+
+<style scoped>
+h2 {
+  color: white;
+}
+
+p {
+  font-size: 16px;
+  color: white;
+}
+
+button {
+  color: white;
+  background-color: #538e4e;
+  padding: 20px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: 1px solid #538e4e;
+  margin: 20px 0;
+}
+
+button:hover {
+  background-color: transparent;
+}
+
+.answer {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+
+.answer span {
+  width: 64px;
+  height: 64px;
+}
+
+.wrapper {
+  position: fixed;
+  top: 30vh;
+  left: 50vw;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #3a3a3c;
+  padding: 40px;
+  border-radius: 10px;
+  border: 0.05em solid hsl(240, 2%, 23%);
+  box-shadow: 0px 2px 15px -3px hsl(240, 2%, 23%);
+}
+</style>

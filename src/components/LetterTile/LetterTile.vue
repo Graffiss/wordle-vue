@@ -23,7 +23,7 @@ defineProps<{
   align-items: center;
   user-select: none;
   transition: transform 250ms linear;
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
 }
 </style>
