@@ -1,41 +1,55 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { storeToRefs } from "pinia";
+import { computed, ref, watch } from "vue";
 import { useGuess } from "../../composable/useGuess";
+import { usePrevious } from "../../composable/usePrevious";
+import { NUMBER_OF_GUESSES, WORD_LENGTH } from "../../constants/constants";
+import { useGuessStore } from "../../store/guess";
+import { isValidWord } from "../../utils/get-words";
 import TheKeyboard from "../Keyboard/TheKeyboard.vue";
 import WordsGrid from "../wordsGrid/WordsGrid.vue";
 
-const { addGuessLetter } = useGuess();
-const state = reactive({
-  rows: [
-    {
-      guess: "world",
-    },
-    {
-      guess: "great",
-    },
-    {
-      guess: "cra",
-    },
-    {
-      guess: "",
-    },
-    {
-      guess: "",
-    },
-    {
-      guess: "",
-    },
-  ],
+const main = useGuessStore();
+const { rows, gameState } = storeToRefs(main);
+const { guess, addGuessLetter } = useGuess();
+
+const invalidGuess = ref({ showInvalidGuess: false });
+
+const previousGuess = usePrevious(guess);
+
+watch(previousGuess, () => {
+  if (guess.value.length === 0 && previousGuess.value.length === WORD_LENGTH) {
+    if (isValidWord(previousGuess.value)) {
+      invalidGuess.value = { showInvalidGuess: false };
+      main.addGuess(previousGuess.value);
+    } else {
+      invalidGuess.value = { showInvalidGuess: true };
+      guess.value = previousGuess.value;
+    }
+  }
+});
+
+const isGameOver = gameState.value !== "playing";
+
+const words = computed(() => {
+  let newRows = [...rows.value];
+
+  let currentRow = 0;
+  if (newRows.length < NUMBER_OF_GUESSES) {
+    currentRow = newRows.push({ guess: guess.value }) - 1;
+  }
+
+  const guessesRemaining = NUMBER_OF_GUESSES - newRows.length;
+
+  newRows = newRows.concat(Array(guessesRemaining).fill({ guess: "" }));
+
+  return newRows;
 });
 </script>
 
 <template>
   <div class="tiles-wrapper">
-    <WordsGrid
-      :word="word.guess"
-      v-for="(word, index) in state.rows"
-      :key="index"
-    />
+    <WordsGrid :word="word.guess" v-for="(word, index) in words" :key="index" />
   </div>
   <TheKeyboard :onClickProps="(key) => addGuessLetter(key)" />
 </template>
