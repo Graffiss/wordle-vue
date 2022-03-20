@@ -6,9 +6,9 @@ import { usePrevious } from "../../composable/usePrevious";
 import { NUMBER_OF_GUESSES, WORD_LENGTH } from "../../constants/constants";
 import { useGuessStore } from "../../store/guess";
 import { isValidWord } from "../../utils/get-words";
-import TheKeyboard from "../Keyboard/TheKeyboard.vue";
-import WordsGrid from "../wordsGrid/WordsGrid.vue";
 import Alert from "../Alert/TheAlert.vue";
+import TheKeyboard from "../Keyboard/TheKeyboard.vue";
+import WordsGrid from "../WordsGrid/WordsGrid.vue";
 
 const main = useGuessStore();
 const { rows, gameState } = storeToRefs(main);
@@ -37,12 +37,14 @@ const words = computed(() => {
 
   let currentRow = 0;
   if (newRows.length < NUMBER_OF_GUESSES) {
-    currentRow = newRows.push({ guess: guess.value }) - 1;
+    currentRow = newRows.push({ guess: guess.value, result: [] }) - 1;
   }
 
   const guessesRemaining = NUMBER_OF_GUESSES - newRows.length;
 
-  newRows = newRows.concat(Array(guessesRemaining).fill({ guess: "" }));
+  newRows = newRows.concat(
+    Array(guessesRemaining).fill({ guess: "", result: [] })
+  );
 
   return newRows;
 });
@@ -51,7 +53,12 @@ const words = computed(() => {
 <template>
   <Alert v-if="isGameOver" />
   <div class="tiles-wrapper">
-    <WordsGrid :word="word.guess" v-for="(word, index) in words" :key="index" />
+    <WordsGrid
+      v-for="(word, index) in words"
+      :key="index"
+      :word="word.guess"
+      :result="word.result"
+    />
   </div>
   <TheKeyboard :onClickProps="(key) => addGuessLetter(key)" />
 </template>

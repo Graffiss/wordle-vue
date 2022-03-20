@@ -5,7 +5,7 @@ import { NUMBER_OF_GUESSES } from "@/constants/constants";
 
 interface GuessRow {
   guess: string;
-  result?: LetterState[];
+  result: LetterState[] | [];
 }
 
 interface GuessState {
