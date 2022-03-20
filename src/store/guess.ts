@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useStorage } from "@vueuse/core";
 import { getWord } from "@/utils/get-words";
 import { calculateGuess, LetterState } from "@/utils/calculate-guess";
 import { NUMBER_OF_GUESSES } from "@/constants/constants";
@@ -19,7 +20,7 @@ interface GuessState {
 
 export const useGuessStore = defineStore("main", {
   state: () =>
-    ({
+    useStorage("store", {
       rows: [],
       answer: getWord(),
       gameState: "playing",
