@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import { useGuessStore } from "../../store/guess";
-import WordsGrid from "../wordsGrid/WordsGrid.vue";
+import WordsGrid from "../WordsGrid/WordsGrid.vue";
 
 const main = useGuessStore();
 const { gameState, answer } = storeToRefs(main);
@@ -15,7 +15,7 @@ const gameWon = computed(() => gameState.value === "won");
     <h2>Game Over</h2>
     <p v-if="gameWon">Congrats! You won!</p>
     <div class="answer" v-else>
-      <WordsGrid :word="answer" />
+      <WordsGrid :word="answer" :result="[]" />
     </div>
     <button @click="main.newGame([])">New Game</button>
   </div>

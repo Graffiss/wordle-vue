@@ -3,7 +3,6 @@ import DeleteIcon from "@/components/icons/IconDelete.vue";
 import { KEYBOARD_LETTERS } from "@/constants/constants";
 import { LetterState } from "@/utils/calculate-guess";
 import { storeToRefs } from "pinia";
-import { computed, watch } from "vue";
 import { useGuessStore } from "../../store/guess";
 
 const keyStateStyles = {
@@ -14,12 +13,6 @@ const keyStateStyles = {
 
 const main = useGuessStore();
 const { keyboardLetterState } = storeToRefs(main);
-
-const letterState = computed(() =>
-  KEYBOARD_LETTERS.map((key) => keyStateStyles[keyboardLetterState.value[key]])
-);
-
-watch(keyboardLetterState, () => letterState.value);
 
 const props = defineProps<{
   onClickProps: (key: string) => void;
